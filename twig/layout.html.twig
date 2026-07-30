@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="{% block lang %}{{ _bhtml.locale | default('en') }}{% endblock %}">
+<head>
+    {% block head -%}
+    {% block favicon -%}
+        {% if _bhtml.meta.favicon is defined and _bhtml.meta.favicon is not empty %}
+    <link rel="icon" type="image/svg+xml"
+          href="{{ _bhtml.meta.favicon }}">
+        {% else %}
+    <link rel="icon" type="image/svg+xml"
+          href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Ctext x='32' y='56' text-anchor='middle' font-family='Arial Black,Arial,sans-serif' font-size='64' font-weight='900'%3EB%3C/text%3E%3C/svg%3E">
+        {% endif %}
+    {% endblock %}
+
+        <title>{% block title %}{{ _bhtml.meta.title | default('BlendHtml page') }}{% endblock %}</title>
+
+    {% block meta %}
+    <meta charset="{% block charset %}{{ _bhtml.meta.charset | default('UTF-8') }}{% endblock %}">
+    <meta name="viewport"
+          content="{% block viewport %}{{ _bhtml.meta.viewport | default('width=device-width, initial-scale=1') }}{% endblock %}">
+    <meta
+            name="description"
+            content="{{ _bhtml.meta.description }}"
+    >
+    {% endblock %}
+
+    {% block css %}{% endblock %}
+
+    {% block js %}
+
+        {% if _bhtml.devMode %}
+
+        {{ asset('eruda') }}
+
+        {% if _GET['dev:reload'] is defined %}
+        <script
+                src="/proxy?src=bhtml/js/dev/reload/v1/index.js"
+                ignoreAssets="
+                    https://cdn.tailwindcss.com
+                    /proxy?src=third-party/cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css
+                    "
+                delay="{{ _GET['dev:reload']|trim == '' ? 5: _GET['dev:reload']|trim }}" {# @note in seconds #}
+                defer></script>
+        {% endif %}
+
+        {% if _GET['dev:scroll'] is defined %}
+        <script
+                src="/proxy?src=bhtml/js/dev/scroll/v1/index.js"
+                pos="{{ _GET['dev:scroll']|trim == '' ? 0: _GET['dev:scroll']|trim }}"
+        ></script>
+        {% endif %}
+
+        {% endif %}
+
+
+    {% endblock %}
+
+    {% endblock %}
+</head>
+<body {% block bodyAttrs %}{% endblock %}>
+{% block body %}
+    {% include _bhtml.page ~ '/index.html.twig' %}
+{% endblock %}
+</body>
+</html>

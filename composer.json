@@ -1,0 +1,28 @@
+{
+  "name": "blendhtml/blendhtml",
+  "description": "Micro framework both for human and AI. Server-side rendering, cascading filesystem strategy",
+  "authors": [
+    {
+      "name": "Philipp Nikolajev",
+      "email": "philipp@nikolajev.ee",
+      "homepage": "https://nikolajev.ee",
+      "role": "Developer"
+    }
+  ],
+  "type": "library",
+  "license": "MIT",
+  "autoload": {
+    "psr-4": {
+      "BlendHtml\\Core\\": "src/"
+    }
+  },
+  "bin": [
+    "bin/bhtml"
+  ],
+  "require": {
+    "php": "^8.1",
+    "twig/twig": "^3.0",
+    "blendhtml/components": "^0.1.0",
+    "blendhtml/assets": "^0.1.0"
+  }
+}

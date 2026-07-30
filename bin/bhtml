@@ -1,0 +1,12 @@
+#!/usr/bin/env php
+<?php
+
+require getcwd() . '/vendor/autoload.php';
+
+use BlendHtml\Core\Compiler;
+
+Compiler::build(
+    getcwd() . '/BlendHtml'
+);
+
+echo "BlendHtml build complete\n";

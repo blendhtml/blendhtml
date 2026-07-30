@@ -1,0 +1,15 @@
+{
+  "title": "Coming Soon",
+  "badge": "✦ Under Development",
+  "icon": "🚀",
+  "headline": "Coming Soon",
+  "subtitle": "We're building something exceptional. The project is actively under development and will be available soon. Thank you for your patience while we prepare the launch.",
+  "status": {
+    "text": "Development in Progress"
+  },
+  "footer": {
+    "text": "Read more about the project at",
+    "url": "blendhtml.com"
+  },
+  "favicon_letter": "B"
+}
