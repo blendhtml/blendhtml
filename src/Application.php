@@ -151,12 +151,11 @@ class Application
             if (!$page) {
                 Context::setLocale($initialLocale ?? getenv('LOCALE') ?? 'en');
 
-                http_response_code(404);
-
-                if ($route === '') {
+                if ($route === '/') {
                     return ComingSoon::render();
                 }
 
+                http_response_code(404);
                 return Page404::render();
             }
 
