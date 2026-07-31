@@ -149,7 +149,8 @@ class Application
             }
 
             if (!$page) {
-                Context::setLocale($initialLocale ?? getenv('LOCALE') ?? 'en');
+                $envLocale = empty(getenv('LOCALE')) ? null : getenv('LOCALE');
+                Context::setLocale($initialLocale ?? $envLocale ?? 'en');
 
                 if ($route === '/') {
                     return ComingSoon::render();
