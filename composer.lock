@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0f1e72686faa3ac4385d9187c98f6d80",
+    "content-hash": "3b0ecf084520b623b25db1cb602f195c",
     "packages": [
         {
             "name": "blendhtml/assets",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blendhtml/assets.git",
-                "reference": "5a56f4433d95d2ca857ac280d8179b5337ca1f68"
+                "reference": "5f353a4695c9bb05268d4a143cf4518270063a71"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blendhtml/assets/zipball/5a56f4433d95d2ca857ac280d8179b5337ca1f68",
-                "reference": "5a56f4433d95d2ca857ac280d8179b5337ca1f68",
+                "url": "https://api.github.com/repos/blendhtml/assets/zipball/5f353a4695c9bb05268d4a143cf4518270063a71",
+                "reference": "5f353a4695c9bb05268d4a143cf4518270063a71",
                 "shasum": ""
             },
             "type": "library",
@@ -40,22 +40,22 @@
             ],
             "support": {
                 "issues": "https://github.com/blendhtml/assets/issues",
-                "source": "https://github.com/blendhtml/assets/tree/v0.1.0"
+                "source": "https://github.com/blendhtml/assets/tree/v0.2.0"
             },
-            "time": "2026-07-30T12:01:10+00:00"
+            "time": "2026-08-07T12:30:39+00:00"
         },
         {
             "name": "blendhtml/components",
-            "version": "v0.1.0",
+            "version": "v0.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blendhtml/components.git",
-                "reference": "9324c52e13ff8dfde074cc8a2f1c8b31ffe23f14"
+                "reference": "9f4189e720d5716aa0a9cafdb19ab4f3091f8389"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blendhtml/components/zipball/9324c52e13ff8dfde074cc8a2f1c8b31ffe23f14",
-                "reference": "9324c52e13ff8dfde074cc8a2f1c8b31ffe23f14",
+                "url": "https://api.github.com/repos/blendhtml/components/zipball/9f4189e720d5716aa0a9cafdb19ab4f3091f8389",
+                "reference": "9f4189e720d5716aa0a9cafdb19ab4f3091f8389",
                 "shasum": ""
             },
             "type": "library",
@@ -73,9 +73,9 @@
             ],
             "support": {
                 "issues": "https://github.com/blendhtml/components/issues",
-                "source": "https://github.com/blendhtml/components/tree/v0.1.0"
+                "source": "https://github.com/blendhtml/components/tree/v0.2.0"
             },
-            "time": "2026-07-30T12:13:48+00:00"
+            "time": "2026-08-07T12:16:11+00:00"
         },
         {
             "name": "symfony/deprecation-contracts",
