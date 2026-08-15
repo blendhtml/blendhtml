@@ -3,10 +3,13 @@
 
 require getcwd() . '/vendor/autoload.php';
 
-use BlendHtml\Core\Compiler;
+use Blendhtml\Core\Compiler;
+use Blendhtml\Core\Env;
+
+Env::load(getcwd());
 
 Compiler::build(
-    getcwd() . '/BlendHtml'
+    getcwd() . '/Blendhtml'
 );
 
-echo "BlendHtml build complete\n";
+echo "Blendhtml build complete\n";

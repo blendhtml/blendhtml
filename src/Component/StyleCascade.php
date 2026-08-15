@@ -1,8 +1,6 @@
 <?php
 
-namespace BlendHtml\Core\Component;
-
-use BlendHtml\Core\Context;
+namespace Blendhtml\Core\Component;
 
 class StyleCascade
 {
@@ -14,7 +12,7 @@ class StyleCascade
 
         foreach ($paths as $base) {
 
-            if (str_contains($base, 'vendor/blendhtml/components')) {
+            if (Cascade::vendor($base)) {
                 $files = [
                     $base . '/' . $componentRef . '/style.json',
                     $base . '/' . $componentRef . '/style.php',

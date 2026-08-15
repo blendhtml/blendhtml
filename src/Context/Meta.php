@@ -1,6 +1,6 @@
 <?php
 
-namespace BlendHtml\Core\Context;
+namespace Blendhtml\Core\Context;
 
 class Meta
 {
@@ -9,6 +9,6 @@ class Meta
         public ?string $favicon = null,
         public ?string $charset = 'UTF-8',
         public ?string $viewport = 'width=device-width, initial-scale=1',
-        public ?string $description = 'Powered by BlendHtml. Visit blendhtml.com for more info.',
+        public ?string $description = 'Powered by Blendhtml. Visit blendhtml.com for more info.',
     ) {}
 }

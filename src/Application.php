@@ -1,16 +1,17 @@
 <?php
 
-namespace BlendHtml\Core;
+namespace Blendhtml\Core;
 
-use BlendHtml\Assets\AssetProxy;
-use BlendHtml\Core\Page\ComingSoon;
-use BlendHtml\Core\Page\Page404;
-use BlendHtml\Core\Page\Page500;
+use Blendhtml\Assets\AssetProxy;
+use Blendhtml\Core\Page\ComingSoon;
+use Blendhtml\Core\Page\Page404;
+use Blendhtml\Core\Page\Page500;
 use Throwable;
 
 class Application
 {
     private readonly string $pagesAbsoluteDir;
+    private readonly string $vendorPagesAbsoluteDir;
 
     public function __construct()
     {
@@ -28,18 +29,20 @@ class Application
 
         Context::setDevMode($devMode);
 
-        $pagesRelativeDir = getenv('BLENDHTML_PAGES') ?: 'BlendHtml';
+        $pagesRelativeDir = getenv('BLENDHTML_PAGES') ?: 'Blendhtml';
 
         $this->pagesAbsoluteDir =
             dirname(getcwd())
             . '/'
             . $pagesRelativeDir;
 
+        $this->vendorPagesAbsoluteDir =
+            dirname(__DIR__)
+            . '/Blendhtml';
+
         if (Context::devMode() === false) {
             error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE);
         }
-
-        Context::setRoot($this->pagesAbsoluteDir);
     }
 
     private function sanitizeUri(string $uri): string
@@ -63,12 +66,15 @@ class Application
         return ['/' . implode('/', $parts), $locale];
     }
 
-    private function resolveRoute(string $url): string
+    private function resolveRoute(
+        string $url,
+        string $pagesAbsoluteDir
+    ): ?string
     {
         $urlRewritten = false;
 
         $routesFile =
-            $this->pagesAbsoluteDir
+            $pagesAbsoluteDir
             . '/routes.json';
 
         if (file_exists($routesFile)) {
@@ -80,7 +86,7 @@ class Application
 
             if (
                 is_array($routes)
-                && isset($routes[$url])
+                && array_key_exists($url, $routes)
             ) {
                 $url = $routes[$url];
                 $urlRewritten = true;
@@ -90,23 +96,90 @@ class Application
         if ($urlRewritten === false) {
 
             $routerFile =
-                $this->pagesAbsoluteDir
+                $pagesAbsoluteDir
                 . '/Router.php';
 
             if (file_exists($routerFile)) {
 
                 require_once $routerFile;
 
-                $url = \BlendHtml\Pages\Router::process($url);
+                $url = \Blendhtml\Pages\Router::process($url);
             }
         }
 
         return $url;
     }
 
+    private function isReservedBlendhtmlUrl(string $url): bool
+    {
+        $path = trim(
+            parse_url($url, PHP_URL_PATH) ?? '',
+            '/'
+        );
+
+        if ($path === '') {
+            return false;
+        }
+
+        $segments = explode('/', $path);
+
+        return strtolower($segments[0] ?? '') === 'blendhtml';
+    }
+
+    private function stripReservedBlendhtmlPrefix(string $url): string
+    {
+        $path = trim(
+            parse_url($url, PHP_URL_PATH) ?? '',
+            '/'
+        );
+
+        $segments = array_values(
+            array_filter(
+                explode('/', $path),
+                static fn(string $segment): bool => $segment !== ''
+            )
+        );
+
+        array_shift($segments);
+
+        if ($segments === []) {
+            return '/';
+        }
+
+        return '/' . implode('/', $segments);
+    }
+
+    private function assertReservedProjectPathsAreFree(): void
+    {
+        $path = rtrim($this->pagesAbsoluteDir, '/') . '/Blendhtml';
+
+        if (file_exists($path)) {
+            throw new \LogicException(
+                "'/blendhtml/*' is reserved by Blendhtml. Remove project path: {$path}"
+            );
+        }
+    }
+
+    private function ensureLocale(?string $initialLocale = null): void
+    {
+        if (Context::localeOrNull() !== null) {
+            return;
+        }
+
+        $envLocale = empty(getenv('LOCALE')) ? null : getenv('LOCALE');
+
+        Context::setLocale(
+            $initialLocale
+            ?? $envLocale
+            ?? 'en'
+        );
+    }
+
     public function render(string $uri): string
     {
         try {
+            $this->assertReservedProjectPathsAreFree();
+
             $uri = $this->sanitizeUri($uri);
 
             $url = parse_url($uri, PHP_URL_PATH);
@@ -121,15 +194,29 @@ class Application
 
             $uriWithoutLocale = empty($query) ? $urlWithoutLocale : $urlWithoutLocale . '?' . $query;
 
-            $route = $this->resolveRoute($urlWithoutLocale);
+            $reservedBlendhtmlUrl = $this->isReservedBlendhtmlUrl($urlWithoutLocale);
+
+            $activePagesDir = $reservedBlendhtmlUrl
+                ? $this->vendorPagesAbsoluteDir
+                : $this->pagesAbsoluteDir;
+
+            $routeUrl = $reservedBlendhtmlUrl
+                ? $this->stripReservedBlendhtmlPrefix($urlWithoutLocale)
+                : $urlWithoutLocale;
+
+            $route = $this->resolveRoute(
+                $routeUrl,
+                $activePagesDir
+            );
 
             // @todo Should redirect with a proper locale
             if ($route === null) {
+                $this->ensureLocale($initialLocale);
                 http_response_code(404);
                 return Page404::render();
             }
 
-            $page = (new PageLocator($this->pagesAbsoluteDir))
+            $page = (new PageLocator($activePagesDir))
                 ->findByRoute($route);
 
             // ------------------------------------------------------------
@@ -137,7 +224,10 @@ class Application
             // ------------------------------------------------------------
             if ($page) {
                 Env::rewrite(
-                    EnvCascade::resolve($page->directory)
+                    EnvCascade::resolve(
+                        $page->directory,
+                        $page->rootDirectory
+                    )
                 );
             }
 
@@ -149,8 +239,7 @@ class Application
             }
 
             if (!$page) {
-                $envLocale = empty(getenv('LOCALE')) ? null : getenv('LOCALE');
-                Context::setLocale($initialLocale ?? $envLocale ?? 'en');
+                $this->ensureLocale($initialLocale);
 
                 if ($route === '/') {
                     return ComingSoon::render();
@@ -168,12 +257,16 @@ class Application
             // ------------------------------------------------------------
             // Set context
             // ------------------------------------------------------------
+            Context::setRoot($page->rootDirectory);
             Context::setPage(
-                $page->module
-                . '/'
-                . $page->name
+                trim(
+                    $page->module
+                    . '/'
+                    . $page->name,
+                    '/'
+                )
             );
-            Context::setLocale($initialLocale);
+            Context::setLocale($initialLocale ?? getenv('LOCALE') ?: 'en');
             Context::setUri($uriWithoutLocale);
             Context::setLocales(Locales::allowedList());
 
@@ -200,7 +293,7 @@ class Application
             }
 
             Twig::init(
-                $this->pagesAbsoluteDir
+                $page->rootDirectory
             );
 
             return PageView::render(
@@ -210,6 +303,7 @@ class Application
                     [
                         '_GET' => $_GET,
                         '_POST' => $_POST,
+                        '_COOKIE' => $_COOKIE,
                         '_bhtml' => Context::instance(),
                     ]
                 )
@@ -224,6 +318,8 @@ class Application
             if (Context::devMode() === true) {
                 throw $exception;
             }
+
+            $this->ensureLocale();
 
             return Page500::render();
         }

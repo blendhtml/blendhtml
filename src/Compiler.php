@@ -1,6 +1,6 @@
 <?php
 
-namespace BlendHtml\Core;
+namespace Blendhtml\Core;
 
 class Compiler
 {
@@ -67,18 +67,15 @@ class Compiler
                     $root
                 );
 
-            if (str_contains($parentTemplate, '/vendor/blendhtml/components/')) {
+            $componentRelativePath = Vendor::relativeToComponents(
+                $parentTemplate,
+                dirname($root)
+            );
+
+            if ($componentRelativePath !== null) {
                 $parentTemplate =
                     '@components/'
-                    . explode(
-                        '/vendor/blendhtml/components/',
-                        str_replace(
-                            '\\',
-                            '/',
-                            $parentTemplate
-                        ),
-                        2
-                    )[1];
+                    . $componentRelativePath;
             }
         } elseif (
             $filename === 'layout.html.twig'
@@ -122,7 +119,7 @@ class Compiler
 
         $lines = [
             '{#- bhtml:begin -#}',
-            '{#- BlendHtml compiler: vendor/bin/bhtml -#}',
+            '{#- Blendhtml compiler: vendor/bin/bhtml -#}',
             '{#- Compiler-managed. Changes will be overwritten. -#}',
             "{%- set __DIR__ = '{$dir}' -%}",
         ];
@@ -242,7 +239,11 @@ class Compiler
             return $candidate;
         }
 
-        $candidate = dirname(__DIR__, 4) . '/vendor/blendhtml/components/' . $componentPath;
+        $candidate =
+            Vendor::componentsPath(dirname($root))
+            . '/'
+            . $componentPath;
+
         $candidateFile = $candidate;
         
         if (

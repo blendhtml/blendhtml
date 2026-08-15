@@ -1,8 +1,8 @@
 <?php
 
-namespace BlendHtml\Core\Component;
+namespace Blendhtml\Core\Component;
 
-use BlendHtml\Core\Context;
+use Blendhtml\Core\Context;
 
 class DataCascade
 {
@@ -44,7 +44,7 @@ class DataCascade
 
         foreach ($paths as $base) {
 
-            if (str_contains($base, 'vendor/blendhtml/components')) {
+            if (Cascade::vendor($base)) {
                 $files = [
                     $base . '/DATA/all.json',
                     $base . '/bhtml/DATA/all.php',
@@ -73,7 +73,6 @@ class DataCascade
                     $base . '/bhtml/' . $componentRef . '/' . Context::locale() . '.php',
                 ];
             }
-
 
             foreach ($files as $file) {
 

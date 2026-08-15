@@ -1,10 +1,6 @@
 <?php
 
-namespace BlendHtml\Core;
-
-use Twig\Environment;
-use Twig\Loader\FilesystemLoader;
-use Twig\TwigFunction;
+namespace Blendhtml\Core;
 
 class PageView
 {
@@ -39,7 +35,8 @@ class PageView
         string $directory
     ): ?string {
 
-        $current = $directory;
+        $current = rtrim($directory, '/');
+        $root = rtrim(Context::root(), '/');
 
         while (true) {
 
@@ -49,6 +46,10 @@ class PageView
 
             if (is_file($layout)) {
                 return $layout;
+            }
+
+            if ($current === $root) {
+                return null;
             }
 
             $parent = dirname(

@@ -1,6 +1,6 @@
 <?php
 
-namespace BlendHtml\Core;
+namespace Blendhtml\Core;
 
 class PageLocator
 {
@@ -29,14 +29,17 @@ class PageLocator
 
         $directory =
             rtrim($this->pagesDirectory, '/')
-            . '/'
-            . implode('/', $segments);
+            . (
+                $segments === []
+                    ? ''
+                    : '/' . implode('/', $segments)
+            );
 
         if (!is_dir($directory)) {
             return null;
         }
 
-        if (!is_file($directory . '/index.html.twig')) {
+        if (!is_file($directory . '/index.html.twig') && !is_file($directory . '/controller.php')) {
             return null;
         }
 
@@ -45,7 +48,8 @@ class PageLocator
         return new Page(
             implode('/', $segments),
             $pageName ?? '',
-            $directory
+            $directory,
+            rtrim($this->pagesDirectory, '/')
         );
     }
 

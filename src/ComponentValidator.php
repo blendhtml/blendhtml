@@ -1,6 +1,6 @@
 <?php
 
-namespace BlendHtml\Core;
+namespace Blendhtml\Core;
 
 class ComponentValidator
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace BlendHtml\Core;
+namespace Blendhtml\Core;
 
-use BlendHtml\Core\Context\Meta;
+use Blendhtml\Core\Context\Meta;
 
 class Context
 {

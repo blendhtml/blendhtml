@@ -1,8 +1,8 @@
 <?php
 
-namespace BlendHtml\Core;
+namespace Blendhtml\Core;
 
-use BlendHtml\Core\Component\Cascade;
+use Blendhtml\Core\Component\Cascade;
 
 class MetaCascade
 {
@@ -32,59 +32,71 @@ class MetaCascade
     {
         $data = [];
 
-        $pagesDirectory = dirname(getcwd());
-
-        $relativeDirectory = substr(
-            $page->directory,
-            strlen($pagesDirectory)
-        );
-
-        $segments = array_values(
-            array_filter(
-                explode(
-                    '/',
-                    trim(
-                        $relativeDirectory,
-                        '/'
-                    )
-                )
-            )
-        );
-
-        $current = rtrim(
-            $pagesDirectory,
+        $root = rtrim(
+            $page->rootDirectory,
             '/'
         );
 
-        foreach ($segments as $segment) {
+        $target = rtrim(
+            $page->directory,
+            '/'
+        );
+
+        $data = self::mergeFile(
+            $data,
+            $root . '/meta.json'
+        );
+
+        if ($target === $root) {
+            return $data;
+        }
+
+        $relative = trim(
+            substr($target, strlen($root)),
+            '/'
+        );
+
+        $current = $root;
+
+        foreach (explode('/', $relative) as $segment) {
+            if ($segment === '') {
+                continue;
+            }
+
             $current .= '/' . $segment;
 
-            $file =
-                $current
-                . '/meta.json';
-
-            if (!is_file($file)) {
-                continue;
-            }
-
-            $result = json_decode(
-                file_get_contents($file),
-                true,
-                512,
-                JSON_THROW_ON_ERROR
-            );
-
-            if (!is_array($result)) {
-                continue;
-            }
-
-            $data = Cascade::merge(
+            $data = self::mergeFile(
                 $data,
-                $result
+                $current . '/meta.json'
             );
         }
 
         return $data;
+    }
+
+    private static function mergeFile(
+        array $data,
+        string $file
+    ): array {
+        if (!is_file($file)) {
+            return $data;
+        }
+
+        $result = json_decode(
+            file_get_contents($file),
+            true,
+            512,
+            JSON_THROW_ON_ERROR
+        );
+
+        if (!is_array($result)) {
+            return $data;
+        }
+
+        return Cascade::merge(
+            $data,
+            $result
+        );
     }
 
     private static function resolveValue(mixed $value): array
@@ -96,7 +108,7 @@ class MetaCascade
             ];
         }
 
-        $locale = Context::localeOrNull() ?? getenv('LOCALE') ?: 'en';
+        $locale = Context::localeOrNull() ?? (getenv('LOCALE') ?: 'en');
 
         if (array_key_exists($locale, $value)) {
             return [

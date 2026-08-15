@@ -1,9 +1,9 @@
 <?php
 
-namespace BlendHtml\Core;
+namespace Blendhtml\Core;
 
-use BlendHtml\Assets\AssetVendor;
-use BlendHtml\Core\Component\Renderer;
+use Blendhtml\Assets\AssetVendor;
+use Blendhtml\Core\Component\Renderer;
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 use Twig\TwigFunction;
@@ -11,10 +11,16 @@ use Twig\TwigFunction;
 class Twig
 {
     private static ?Environment $instance = null;
+    private static ?string $pagesDirectory = null;
 
     public static function init(string $pagesDirectory): void
     {
-        if (self::$instance) {
+        $pagesDirectory = rtrim($pagesDirectory, '/');
+
+        if (
+            self::$instance
+            && self::$pagesDirectory === $pagesDirectory
+        ) {
             return;
         }
 
@@ -26,7 +32,7 @@ class Twig
         );
 
         $loader->addPath(
-            dirname(__DIR__, 4) . '/vendor/blendhtml/components',
+            Vendor::componentsPath(),
             'components'
         );
 
@@ -87,6 +93,7 @@ class Twig
         );
 
         self::$instance = $twig;
+        self::$pagesDirectory = $pagesDirectory;
     }
 
     public static function instance(): Environment

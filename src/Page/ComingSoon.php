@@ -1,8 +1,8 @@
 <?php
 
-namespace BlendHtml\Core\Page;
+namespace Blendhtml\Core\Page;
 
-use BlendHtml\Core\Context;
+use Blendhtml\Core\Context;
 
 class ComingSoon
 {

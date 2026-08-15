@@ -1,6 +1,6 @@
 <?php
 
-use BlendHtml\Core\Context;
+use Blendhtml\Core\Context;
 
 $contents = json_decode(
     file_get_contents(__DIR__ . '/' . Context::locale(). '.json'),

@@ -1,8 +1,9 @@
 <?php
 
-namespace BlendHtml\Core\Component;
+namespace Blendhtml\Core\Component;
 
-use BlendHtml\Core\Context;
+use Blendhtml\Core\Context;
+use Blendhtml\Core\Vendor;
 
 final class Cascade
 {
@@ -11,7 +12,12 @@ final class Cascade
         $root = Context::root();
         $page = Context::page();
 
-        $segments = explode('/', trim($page, '/'));
+        $segments = array_values(
+            array_filter(
+                explode('/', trim($page, '/')),
+                static fn(string $segment): bool => $segment !== ''
+            )
+        );
 
         $paths = [];
 
@@ -27,7 +33,7 @@ final class Cascade
                 : $root . '/' . $subPath;
         }
 
-        $paths[] = dirname($root) . '/vendor/blendhtml/components';
+        $paths[] = Vendor::componentsPath();
 
         return array_reverse($paths);
     }
@@ -60,10 +66,7 @@ final class Cascade
 
     public static function vendor(string $base): bool
     {
-        return str_contains(
-            $base,
-            'vendor/blendhtml/components'
-        );
+        return Vendor::isComponentsPath($base);
     }
 
     public static function merge(

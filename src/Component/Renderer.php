@@ -1,9 +1,9 @@
 <?php
 
-namespace BlendHtml\Core\Component;
+namespace Blendhtml\Core\Component;
 
-use BlendHtml\Core\Context;
-use BlendHtml\Core\Twig;
+use Blendhtml\Core\Context;
+use Blendhtml\Core\Twig;
 
 class Renderer
 {

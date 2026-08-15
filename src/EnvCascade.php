@@ -1,10 +1,24 @@
 <?php
 
-namespace BlendHtml\Core;
+namespace Blendhtml\Core;
 
 class EnvCascade
 {
-    public static function resolve(?string $dir = null): array
+    public static function resolve(
+        ?string $dir = null,
+        ?string $root = null
+    ): array {
+        if ($root === null) {
+            return self::resolveFromProjectRoot($dir);
+        }
+
+        return self::resolveFromRoot(
+            $dir ?? $root,
+            $root
+        );
+    }
+
+    private static function resolveFromProjectRoot(?string $dir = null): array
     {
         $projectRoot = self::normalizePath(
             realpath(dirname(getcwd())) ?: dirname(getcwd())
@@ -33,6 +47,58 @@ class EnvCascade
 
         $values = [];
         $current = $projectRoot;
+
+        foreach (explode('/', $relative) as $segment) {
+            if ($segment === '') {
+                continue;
+            }
+
+            $current .= '/' . $segment;
+
+            $fileValues = self::read($current . '/.env');
+
+            if ($fileValues !== []) {
+                $values = array_merge(
+                    $values,
+                    $fileValues
+                );
+            }
+        }
+
+        return $values;
+    }
+
+    private static function resolveFromRoot(
+        string $dir,
+        string $root
+    ): array {
+        $root = self::normalizePath(
+            realpath($root) ?: $root
+        );
+
+        $target = self::normalizePath(
+            realpath($dir) ?: $dir
+        );
+
+        if (
+            $target !== $root
+            && !str_starts_with($target . '/', $root . '/')
+        ) {
+            return [];
+        }
+
+        $values = self::read($root . '/.env');
+
+        if ($target === $root) {
+            return $values;
+        }
+
+        $relative = trim(
+            substr($target, strlen($root)),
+            '/'
+        );
+
+        $current = $root;
 
         foreach (explode('/', $relative) as $segment) {
             if ($segment === '') {

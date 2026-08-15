@@ -12,7 +12,7 @@
         {% endif %}
     {% endblock %}
 
-        <title>{% block title %}{{ _bhtml.meta.title | default('BlendHtml page') }}{% endblock %}</title>
+        <title>{% block title %}{{ _bhtml.meta.title | default('Blendhtml page') }}{% endblock %}</title>
 
     {% block meta %}
     <meta charset="{% block charset %}{{ _bhtml.meta.charset | default('UTF-8') }}{% endblock %}">
@@ -52,14 +52,13 @@
 
         {% endif %}
 
-
     {% endblock %}
 
     {% endblock %}
 </head>
 <body {% block bodyAttrs %}{% endblock %}>
 {% block body %}
-    {% include _bhtml.page ~ '/index.html.twig' %}
+    {% include (_bhtml.page is empty ? 'index.html.twig' : _bhtml.page ~ '/index.html.twig') %}
 {% endblock %}
 </body>
 </html>

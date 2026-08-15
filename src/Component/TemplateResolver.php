@@ -1,8 +1,9 @@
 <?php
 
-namespace BlendHtml\Core\Component;
+namespace Blendhtml\Core\Component;
 
-use BlendHtml\Core\Context;
+use Blendhtml\Core\Context;
+use Blendhtml\Core\Vendor;
 use RuntimeException;
 
 class TemplateResolver
@@ -37,8 +38,8 @@ class TemplateResolver
          * Vendor fallback.
          */
         $candidate =
-            dirname(__DIR__, 3)
-            . '/components/'
+            Vendor::componentsPath()
+            . '/'
             . $componentRef
             . '/template.html.twig';
 

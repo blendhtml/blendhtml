@@ -1,8 +1,8 @@
 <?php
 
-namespace BlendHtml\Core;
+namespace Blendhtml\Core;
 
-use BlendHtml\Core\Component\Cascade;
+use Blendhtml\Core\Component\Cascade;
 
 class PageController
 {
@@ -10,55 +10,66 @@ class PageController
     {
         $data = [];
 
-        $pagesDirectory = dirname(getcwd());
-
-        $relativeDirectory = substr(
-            $page->directory,
-            strlen($pagesDirectory)
-        );
-
-        $segments = array_values(
-            array_filter(
-                explode(
-                    '/',
-                    trim(
-                        $relativeDirectory,
-                        '/'
-                    )
-                )
-            )
-        );
-
-        $current = rtrim(
-            $pagesDirectory,
+        $root = rtrim(
+            $page->rootDirectory,
             '/'
         );
 
-        foreach ($segments as $segment) {
+        $target = rtrim(
+            $page->directory,
+            '/'
+        );
+
+        $data = self::mergeFile(
+            $data,
+            $root . '/controller.php'
+        );
+
+        if ($target === $root) {
+            return $data;
+        }
+
+        $relative = trim(
+            substr($target, strlen($root)),
+            '/'
+        );
+
+        $current = $root;
+
+        foreach (explode('/', $relative) as $segment) {
+
+            if ($segment === '') {
+                continue;
+            }
 
             $current .= '/' . $segment;
 
-            $file =
-                $current
-                . '/controller.php';
-
-            if (!is_file($file)) {
-                continue;
-            }
-
-            $result = require $file;
-
-            if (!is_array($result)) {
-                continue;
-            }
-
-            $data = Cascade::merge(
+            $data = self::mergeFile(
                 $data,
-                $result
+                $current . '/controller.php'
             );
-            
         }
 
         return $data;
+    }
+
+    private static function mergeFile(
+        array $data,
+        string $file
+    ): array {
+        if (!is_file($file)) {
+            return $data;
+        }
+
+        $result = require $file;
+
+        if (!is_array($result)) {
+            return $data;
+        }
+
+        return Cascade::merge(
+            $data,
+            $result
+        );
     }
 }
