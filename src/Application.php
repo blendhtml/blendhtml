@@ -307,14 +307,12 @@ class Application
                     'expires' => $expires,
                     'path' => '/',
                     'secure' => true,
-                    'httponly' => true,
                     'samesite' => 'Lax',
                 ]);
                 setcookie("blendhtml_cookies_accepted", "0", [
                     'expires' => $expires,
                     'path' => '/',
                     'secure' => true,
-                    'httponly' => true,
                     'samesite' => 'Lax',
                 ]);
 
