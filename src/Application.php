@@ -6,6 +6,7 @@ use Blendhtml\Assets\AssetProxy;
 use Blendhtml\Core\Page\ComingSoon;
 use Blendhtml\Core\Page\Page404;
 use Blendhtml\Core\Page\Page500;
+use RuntimeException;
 use Throwable;
 
 class Application
@@ -295,6 +296,31 @@ class Application
             Twig::init(
                 $page->rootDirectory
             );
+
+            if (isset($_GET['notrack'])) {
+                if ($_GET['notrack'] !== getenv('NO_TRACK_TOKEN')) {
+                    throw new RuntimeException("Incorrect notrack token");
+                }
+
+                $expires = time() + (365 * 24 * 3600);
+                setcookie("blendhtml_notrack", "1",     [
+                    'expires' => $expires,
+                    'path' => '/',
+                    'secure' => true,
+                    'httponly' => true,
+                    'samesite' => 'Lax',
+                ]);
+                setcookie("blendhtml_cookies_accepted", "0", [
+                    'expires' => $expires,
+                    'path' => '/',
+                    'secure' => true,
+                    'httponly' => true,
+                    'samesite' => 'Lax',
+                ]);
+
+                $_COOKIE['blendhtml_notrack'] = '1';
+                $_COOKIE['blendhtml_cookies_accepted'] = '0';
+            }
 
             return PageView::render(
                 $page,

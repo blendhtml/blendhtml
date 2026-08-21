@@ -13,7 +13,7 @@ final class LocaleSwitcher
 
         if (in_array($locale, $allowedLocales, true)) {
             setcookie(
-                'bhtml_locale',
+                'blendhtml_locale',
                 $locale,
                 [
                     'expires' => time() + 31536000,

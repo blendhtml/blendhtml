@@ -4,6 +4,17 @@ declare(strict_types=1);
 
 header('Content-Type: application/json; charset=utf-8');
 
+if (isset($_COOKIE['blendhtml_notrack'])) {
+    echo json_encode([
+        'success' => false,
+        'errors' => [
+            'blendhtml_notrack COOKIE is set',
+        ],
+    ]);
+
+    exit;
+}
+
 global $inputData;
 
 $inputData = json_decode(

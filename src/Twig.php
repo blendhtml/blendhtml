@@ -39,6 +39,24 @@ class Twig
         $twig = new Environment($loader);
 
         // -------------------------
+        // GLOBAL FUNCTION: bhtml_page
+        // -------------------------
+        $twig->addFunction(
+            new TwigFunction(
+                'bhtml_page',
+                function (array $context) {
+                    return new \Twig\Markup(
+                        PageBuilder::render($context),
+                        'UTF-8'
+                    );
+                },
+                [
+                    'needs_context' => true,
+                ]
+            )
+        );
+
+        // -------------------------
         // GLOBAL FUNCTION: bhtml
         // -------------------------
         $twig->addFunction(

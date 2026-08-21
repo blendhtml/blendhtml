@@ -35,13 +35,13 @@ final class UrlLocale
          * URL locale wins.
          */
         if ($urlLocale !== null) {
-            $cookieLocale = $_COOKIE['bhtml_locale'] ?? null;
+            $cookieLocale = $_COOKIE['blendhtml_locale'] ?? null;
 
             if ($cookieLocale !== $urlLocale) {
-                $_COOKIE['bhtml_locale'] = $urlLocale;
+                $_COOKIE['blendhtml_locale'] = $urlLocale;
 
                 setcookie(
-                    'bhtml_locale',
+                    'blendhtml_locale',
                     $urlLocale,
                     [
                         'expires' => time() + 31536000,
@@ -54,7 +54,7 @@ final class UrlLocale
             return;
         }
 
-        $cookieLocale = $_COOKIE['bhtml_locale'] ?? null;
+        $cookieLocale = $_COOKIE['blendhtml_locale'] ?? null;
         $defaultLocale = getenv('LOCALE') ?: 'en';
 
         $urlLocale =

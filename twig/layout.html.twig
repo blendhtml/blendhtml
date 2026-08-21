@@ -58,7 +58,7 @@
 </head>
 <body {% block bodyAttrs %}{% endblock %}>
 {% block body %}
-    {% include (_bhtml.page is empty ? 'index.html.twig' : _bhtml.page ~ '/index.html.twig') %}
+    {{ bhtml_page() }}
 {% endblock %}
 </body>
 </html>

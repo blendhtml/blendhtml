@@ -39,7 +39,24 @@ class PageLocator
             return null;
         }
 
-        if (!is_file($directory . '/index.html.twig') && !is_file($directory . '/controller.php')) {
+        $hasIndex = is_file($directory . '/index.html.twig');
+        $hasController = is_file($directory . '/controller.php');
+        $hasPageJson = is_file($directory . '/page.json');
+
+        if (
+            $hasIndex
+            && $hasPageJson
+        ) {
+            throw new \LogicException(
+                "page.json cannot exist along with index.html.twig: {$directory}"
+            );
+        }
+
+        if (
+            !$hasIndex
+            && !$hasController
+            && !$hasPageJson
+        ) {
             return null;
         }
 

@@ -36,6 +36,10 @@ class Renderer
             [
                 '_bhtml' => Context::instance(),
 
+                '_GET' => $_GET,
+                '_POST' => $_POST,
+                '_COOKIE' => $_COOKIE,
+
                 'self' => [
                     'id' => $id,
                     'data' => DataCascade::resolve($componentRef),
