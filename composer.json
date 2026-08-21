@@ -22,7 +22,7 @@
   "require": {
     "php": "^8.1",
     "twig/twig": "^3.0",
-    "blendhtml/components": "^0.3.0",
-    "blendhtml/assets": "^0.3.1"
+    "blendhtml/components": "^0.4.0",
+    "blendhtml/assets": "^0.4.0"
   }
 }
