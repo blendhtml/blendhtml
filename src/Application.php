@@ -298,7 +298,7 @@ class Application
             );
 
             if (isset($_GET['notrack'])) {
-                if ($_GET['notrack'] !== getenv('NO_TRACK_TOKEN')) {
+                if ($_GET['notrack'] !== getenv('NOTRACK_TOKEN')) {
                     throw new RuntimeException("Incorrect notrack token");
                 }
 
