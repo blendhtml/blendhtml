@@ -4,20 +4,20 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "d5dc716d76550306d3b53a8ed719328d",
+    "content-hash": "8edffdde07173fb74e0a65bbfafb576a",
     "packages": [
         {
             "name": "blendhtml/assets",
-            "version": "v0.4.0",
+            "version": "v0.4.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/blendhtml/assets.git",
-                "reference": "825f7bc304df933827e4fa84761459c679bd6bd5"
+                "reference": "ee9f34d8fc8d5a9f25648ad6af3e0df214b7a568"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/blendhtml/assets/zipball/825f7bc304df933827e4fa84761459c679bd6bd5",
-                "reference": "825f7bc304df933827e4fa84761459c679bd6bd5",
+                "url": "https://api.github.com/repos/blendhtml/assets/zipball/ee9f34d8fc8d5a9f25648ad6af3e0df214b7a568",
+                "reference": "ee9f34d8fc8d5a9f25648ad6af3e0df214b7a568",
                 "shasum": ""
             },
             "type": "library",
@@ -40,9 +40,9 @@
             ],
             "support": {
                 "issues": "https://github.com/blendhtml/assets/issues",
-                "source": "https://github.com/blendhtml/assets/tree/v0.4.0"
+                "source": "https://github.com/blendhtml/assets/tree/v0.4.1"
             },
-            "time": "2026-08-21T09:52:46+00:00"
+            "time": "2026-09-03T16:07:55+00:00"
         },
         {
             "name": "blendhtml/components",
