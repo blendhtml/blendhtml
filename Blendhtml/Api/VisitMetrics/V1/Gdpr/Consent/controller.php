@@ -2,6 +2,12 @@
 
 declare(strict_types=1);
 
+use App\Entity\VisitMetricsConsentV1;
+use Blendhtml\Doctrine\Doctrine;
+use DateTimeImmutable;
+use DateTimeZone;
+use Throwable;
+
 function getClientIp(): string
 {
     foreach ([
@@ -65,71 +71,102 @@ function lookupGeo(string $ip): ?array
     ];
 }
 
+function getLogFile(): string
+{
+    global $envDir;
+
+    $directory = dirname(__DIR__, 9)
+        . "/logs/visit-metrics/v1/$envDir/gdpr";
+
+    if (
+        is_dir($directory) === false &&
+        mkdir($directory, 0755, true) === false &&
+        is_dir($directory) === false
+    ) {
+        throw new \RuntimeException(
+            'Unable to create GDPR log directory'
+        );
+    }
+
+    $now = new DateTimeImmutable(
+        'now',
+        new DateTimeZone('UTC')
+    );
+
+    return $directory . '/' . $now->format('Y-m') . '.jsonl';
+}
 
 global $visitorToken;
 global $errors;
 global $referrer;
-global $envDir;
 global $inputData;
 
 $action = ($inputData['bool'] ?? null) === true
     ? 'accept'
     : 'reject';
 
-$now = new \DateTimeImmutable(
+$now = new DateTimeImmutable(
     'now',
-    new \DateTimeZone('UTC')
+    new DateTimeZone('UTC')
 );
 
 $location = lookupGeo(getClientIp());
 
-$directory = dirname(__DIR__, 9)
-    . "/logs/visit-metrics/v1/$envDir/gdpr";
+try {
+    /*
+     * JSONL
+     */
+    $record = [
+        'action' => $action,
+        'referrer' => $referrer,
+        'visitor_token' => $visitorToken,
+        'location' => $location,
+        'errors' => $errors,
+        'timestamp' => $now->format(DATE_ATOM),
+    ];
 
-if (
-    !is_dir($directory) &&
-    !mkdir($directory, 0755, true) &&
-    !is_dir($directory)
-) {
+    $json = json_encode(
+        $record,
+        JSON_UNESCAPED_SLASHES |
+        JSON_UNESCAPED_UNICODE |
+        JSON_THROW_ON_ERROR
+    );
+
+    $file = getLogFile();
+
+    $result = file_put_contents(
+        $file,
+        $json . PHP_EOL,
+        FILE_APPEND | LOCK_EX
+    );
+
+    if ($result === false) {
+        throw new \RuntimeException(
+            'Unable to write GDPR log'
+        );
+    }
+
+    /*
+     * SQLite / Doctrine
+     */
+    $consent = new VisitMetricsConsentV1(
+        action: $action,
+        referrer: $referrer,
+        visitorToken: $visitorToken,
+        location: $location,
+        errors: $errors,
+        timestamp: $now,
+    );
+
+    $em = Doctrine::em();
+
+    $em->persist($consent);
+    $em->flush();
+} catch (Throwable $exception) {
     echo json_encode([
         'success' => false,
         'errors' => [
-            'Unable to create GDPR log directory',
-        ],
-    ]);
-
-    exit;
-}
-
-$file = $directory . '/' . $now->format('Y-m') . '.jsonl';
-
-$record = [
-    'action' => $action,
-    'referrer' => $referrer,
-    'visitor_token' => $visitorToken,
-    'location' => $location,
-    'errors' => $errors,
-    'timestamp' => $now->format(DATE_ATOM),
-];
-
-$line = json_encode(
-    $record,
-    JSON_UNESCAPED_SLASHES |
-    JSON_UNESCAPED_UNICODE |
-    JSON_THROW_ON_ERROR
-);
-
-$result = file_put_contents(
-    $file,
-    $line . PHP_EOL,
-    FILE_APPEND | LOCK_EX
-);
-
-if ($result === false) {
-    echo json_encode([
-        'success' => false,
-        'errors' => [
-            'Unable to write GDPR log',
+            'Unable to store GDPR consent',
         ],
     ]);
 

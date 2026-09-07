@@ -2,6 +2,11 @@
 
 declare(strict_types=1);
 
+use App\Entity\VisitMetricsV1;
+use Blendhtml\Doctrine\Doctrine;
+use DateTimeImmutable;
+use DateTimeZone;
+
 global $errors;
 
 if (empty($errors) === false) {
@@ -40,11 +45,14 @@ function writeToFile(array $data): void
 {
     global $referrer;
 
-    $now = new \DateTimeImmutable(
+    $now = new DateTimeImmutable(
         'now',
-        new \DateTimeZone('UTC')
+        new DateTimeZone('UTC')
     );
 
+    /*
+     * JSONL
+     */
     $record = array_merge(
         $data,
         [
@@ -73,6 +81,30 @@ function writeToFile(array $data): void
             'Unable to write visit metrics log'
         );
     }
+
+    /*
+     * SQLite / Doctrine
+     */
+    global $visitorToken;
+    $metric = new VisitMetricsV1(
+        action: $record['action'],
+        event: $record['event'] ?? null,
+        seconds: $record['seconds'] ?? null,
+        ref: $record['ref'] ?? null,
+        eventId: $record['event_id'],
+        clientTimestamp: new DateTimeImmutable(
+            $record['client_timestamp']
+        ),
+        referrer: $record['referrer'],
+        visitorToken: $visitorToken,
+        meta: $record['meta'] ?? null,
+        timestamp: $now,
+    );
+
+    $em = Doctrine::em();
+
+    $em->persist($metric);
+    $em->flush();
 }
 
 return [];
