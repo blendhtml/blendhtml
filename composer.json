@@ -23,6 +23,7 @@
     "php": "^8.1",
     "twig/twig": "^3.0",
     "blendhtml/components": "^0.4.0",
-    "blendhtml/assets": "^0.4.1"
+    "blendhtml/assets": "^0.4.1",
+    "blendhtml/doctrine": "^0.1.0"
   }
 }
