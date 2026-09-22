@@ -2,6 +2,7 @@
 
 namespace Blendhtml\Core;
 
+use Blendhtml\Core\Auth\AuthContext;
 use Blendhtml\Core\Context\Meta;
 
 class Context
@@ -17,11 +18,14 @@ class Context
 
     private Meta $meta;
 
+    public AuthContext $auth;
+
     public static function instance(): self
     {
         if (!self::$instance) {
             self::$instance = new self();
             self::$instance->meta = new Meta();
+            self::$instance->auth = new AuthContext();
         }
 
         return self::$instance;

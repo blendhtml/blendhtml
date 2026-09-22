@@ -1,0 +1,16 @@
+{
+  "kicker": "Turvaline sisselogimine",
+  "title": "Logi sisse e-posti abil",
+  "description": "Sisesta oma e-posti aadress. Saadame sulle numbrilise kinnituskoodi.",
+  "email_label": "E-posti aadress",
+  "submit": "Saada kinnituskood",
+  "errors": {
+    "mail_delivery": "Kinnituskirja saatmine ebaõnnestus. Palun proovige hiljem uuesti.",
+    "invalid_email": "Palun sisestage korrektne e-posti aadress.",
+    "email_not_authorized": "See e-posti aadress ei ole lubatud.",
+    "rate_limited": "Liiga palju sisselogimiskatseid. Palun proovige hiljem uuesti.",
+    "invalid_csrf": "Vorm on aegunud. Palun proovige uuesti.",
+    "authentication_error": "Sisselogimise päringu töötlemine ebaõnnestus. Palun proovige uuesti.",
+    "method_not_allowed": "Seda päringu meetodit ei toetata."
+  }
+}

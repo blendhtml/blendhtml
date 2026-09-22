@@ -1,0 +1,21 @@
+{
+  "kicker": "E-posti kinnitamine",
+  "title": "Sisesta oma kood",
+  "description": "Sisesta e-kirjas saadetud numbriline kinnituskood.",
+  "code_label": "Kinnituskood",
+  "submit": "Kinnita ja logi sisse",
+  "restart": "Küsi uus kood",
+  "errors": {
+    "invalid_email": "Palun sisestage kehtiv e-posti aadress.",
+    "email_not_authorized": "See e-posti aadress ei ole lubatud.",
+    "rate_limited": "Liiga palju katseid. Palun proovige hiljem uuesti.",
+    "invalid_csrf": "Teie seanss on aegunud. Palun proovige uuesti.",
+    "invalid_code": "Kinnituskood on vale.",
+    "expired_code": "Kinnituskoodi kehtivusaeg on lõppenud. Taotlege uus kood.",
+    "consumed_code": "Seda kinnituskoodi on juba kasutatud.",
+    "invalidated_code": "See kinnituskood ei ole enam kehtiv. Taotlege uus kood.",
+    "maximum_attempts": "Liiga palju ebaõnnestunud katseid. Taotlege uus kood.",
+    "missing_login_flow": "See kinnitustaotlus ei ole enam kehtiv. Taotlege uus kood.",
+    "method_not_allowed": "Seda päringu meetodit ei toetata."
+  }
+}

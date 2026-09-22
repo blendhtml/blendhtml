@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Blendhtml\Core;
 
 use Blendhtml\Assets\AssetProxy;
@@ -16,6 +18,8 @@ class Application
 
     public function __construct()
     {
+        date_default_timezone_set('UTC');
+
         // Default .env from root
         Env::load();
 
@@ -101,10 +105,11 @@ class Application
                 . '/Router.php';
 
             if (file_exists($routerFile)) {
-
                 require_once $routerFile;
 
-                $url = \Blendhtml\Pages\Router::process($url);
+                $url = $pagesAbsoluteDir === $this->pagesAbsoluteDir
+                    ? \Blendhtml\Pages\Router::process($url)
+                    : \Blendhtml\Core\Pages\Router::process($url);
             }
         }
 
@@ -129,17 +134,20 @@ class Application
 
     private function stripReservedBlendhtmlPrefix(string $url): string
     {
-        $path = trim(
-            parse_url($url, PHP_URL_PATH) ?? '',
-            '/'
+        $path = parse_url($url, PHP_URL_PATH) ?? '';
+
+        $path = '/' . trim($path, '/');
+
+        $segments = explode(
+            '/',
+            trim($path, '/')
         );
 
-        $segments = array_values(
-            array_filter(
-                explode('/', $path),
-                static fn(string $segment): bool => $segment !== ''
-            )
-        );
+        if (
+            strtolower($segments[0] ?? '') !== 'blendhtml'
+        ) {
+            return $path;
+        }
 
         array_shift($segments);
 
@@ -193,32 +201,48 @@ class Application
 
             [$urlWithoutLocale, $initialLocale] = $this->stripLocaleFromUrl($url);
 
-            $uriWithoutLocale = empty($query) ? $urlWithoutLocale : $urlWithoutLocale . '?' . $query;
+            $uriWithoutLocale =
+                empty($query)
+                    ? $urlWithoutLocale
+                    : $urlWithoutLocale . '?' . $query;
 
-            $reservedBlendhtmlUrl = $this->isReservedBlendhtmlUrl($urlWithoutLocale);
+            $reservedBlendhtmlUrl =
+                $this->isReservedBlendhtmlUrl($urlWithoutLocale);
 
-            $activePagesDir = $reservedBlendhtmlUrl
-                ? $this->vendorPagesAbsoluteDir
-                : $this->pagesAbsoluteDir;
-
-            $routeUrl = $reservedBlendhtmlUrl
-                ? $this->stripReservedBlendhtmlPrefix($urlWithoutLocale)
-                : $urlWithoutLocale;
 
             $route = $this->resolveRoute(
-                $routeUrl,
-                $activePagesDir
+                $urlWithoutLocale,
+                $this->pagesAbsoluteDir
             );
 
-            // @todo Should redirect with a proper locale
+            $activePagesDir = $this->pagesAbsoluteDir;
+
+            if ($route === $urlWithoutLocale) {
+
+                $vendorRoute = $this->resolveRoute(
+                    $urlWithoutLocale,
+                    $this->vendorPagesAbsoluteDir
+                );
+
+                if ($vendorRoute !== $urlWithoutLocale || $reservedBlendhtmlUrl) {
+                    $route = $vendorRoute;
+                    $activePagesDir = $this->vendorPagesAbsoluteDir;
+                }
+            }
+
             if ($route === null) {
                 $this->ensureLocale($initialLocale);
                 http_response_code(404);
                 return Page404::render();
             }
 
-            $page = (new PageLocator($activePagesDir))
-                ->findByRoute($route);
+            $route = $this->stripReservedBlendhtmlPrefix(
+                $route
+            );
+
+            $page =
+                (new PageLocator($this->pagesAbsoluteDir))->findByRoute($route)
+                ?? (new PageLocator($activePagesDir))->findByRoute($route);
 
             // ------------------------------------------------------------
             // Loading proper ENV (nested)
@@ -303,7 +327,7 @@ class Application
                 }
 
                 $expires = time() + (365 * 24 * 3600);
-                setcookie("blendhtml_notrack", "1",     [
+                setcookie("blendhtml_notrack", "1", [
                     'expires' => $expires,
                     'path' => '/',
                     'secure' => true,

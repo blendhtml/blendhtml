@@ -1,0 +1,12 @@
+{
+  "title": {
+    "et": "Logi sisse",
+    "en": "Sign in",
+    "ru": "Войти"
+  },
+  "description": {
+    "et": "Logi turvaliselt sisse ühekordse e-posti teel saadetava kinnituskoodiga.",
+    "en": "Sign in securely with a one-time email verification code.",
+    "ru": "Войдите безопасно с помощью одноразового кода подтверждения, отправленного по электронной почте."
+  }
+}

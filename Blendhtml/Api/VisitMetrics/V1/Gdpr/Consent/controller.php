@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Entity\VisitMetricsConsentV1;
+use Blendhtml\Core\VisitMetricsV1\Entity\VisitMetricsConsentV1;
 use Blendhtml\Doctrine\Doctrine;
 use DateTimeImmutable;
 use DateTimeZone;

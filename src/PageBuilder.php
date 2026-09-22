@@ -47,11 +47,15 @@ final class PageBuilder
             PageJsonCascade::resolve(
                 $directory,
                 $root
-            )
+            ),
+            $context
         );
     }
 
-    private static function renderPage(array $definition): string
+    private static function renderPage(
+        array $definition,
+        array $context = []
+    ): string
     {
         $chunks = [];
 
@@ -62,13 +66,17 @@ final class PageBuilder
 
             $chunks[] = self::renderArea(
                 $area,
-                $definition[$area]
+                $definition[$area],
+                $context
             );
         }
 
         foreach ($definition as $key => $value) {
             if (is_int($key)) {
-                $chunks[] = self::renderListItem($value);
+                $chunks[] = self::renderListItem(
+                    $value,
+                    $context
+                );
                 continue;
             }
 
@@ -83,24 +91,34 @@ final class PageBuilder
 
             $chunks[] = Renderer::render(
                 $name,
-                is_array($value) ? $value : []
+                is_array($value) ? $value : [],
+                $context
             );
         }
 
         return self::joinChunks($chunks);
     }
 
-    private static function renderDefinition(array $definition): string
+    private static function renderDefinition(
+        array $definition,
+        array $context = []
+    ): string
     {
         if (self::isComponentTuple($definition)) {
-            return self::renderComponentTuple($definition);
+            return self::renderComponentTuple(
+                $definition,
+                $context
+            );
         }
 
         $chunks = [];
 
         foreach ($definition as $key => $value) {
             if (is_int($key)) {
-                $chunks[] = self::renderListItem($value);
+                $chunks[] = self::renderListItem(
+                    $value,
+                    $context
+                );
                 continue;
             }
 
@@ -112,7 +130,8 @@ final class PageBuilder
 
             $chunks[] = Renderer::render(
                 $name,
-                is_array($value) ? $value : []
+                is_array($value) ? $value : [],
+                $context
             );
         }
 
@@ -121,16 +140,24 @@ final class PageBuilder
 
     private static function renderArea(
         string $area,
-        mixed $value
+        mixed $value,
+        array $context = []
     ): string {
         if (is_string($value)) {
             $componentRef = trim($value);
 
             $html = $componentRef === ''
                 ? ''
-                : Renderer::render($componentRef);
+                : Renderer::render(
+                    $componentRef,
+                    [],
+                    $context
+                );
         } elseif (is_array($value)) {
-            $html = self::renderDefinition($value);
+            $html = self::renderDefinition(
+                $value,
+                $context
+            );
         } else {
             $html = '';
         }
@@ -147,22 +174,35 @@ final class PageBuilder
         return $html;
     }
 
-    private static function renderListItem(mixed $value): string
+    private static function renderListItem(
+        mixed $value,
+        array $context = []
+    ): string
     {
         if (is_string($value)) {
             $componentRef = trim($value);
 
             return $componentRef === ''
                 ? ''
-                : Renderer::render($componentRef);
+                : Renderer::render(
+                    $componentRef,
+                    [],
+                    $context
+                );
         }
 
         if (is_array($value)) {
             if (self::isComponentTuple($value)) {
-                return self::renderComponentTuple($value);
+                return self::renderComponentTuple(
+                    $value,
+                    $context
+                );
             }
 
-            return self::renderDefinition($value);
+            return self::renderDefinition(
+                $value,
+                $context
+            );
         }
 
         return '';
@@ -175,7 +215,10 @@ final class PageBuilder
             && is_string($value[0]);
     }
 
-    private static function renderComponentTuple(array $value): string
+    private static function renderComponentTuple(
+        array $value,
+        array $context = []
+    ): string
     {
         $componentRef = trim($value[0]);
 
@@ -194,7 +237,8 @@ final class PageBuilder
 
         return Renderer::render(
             $componentRef,
-            $props
+            $props,
+            $context
         );
     }
 

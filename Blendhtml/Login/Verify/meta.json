@@ -1,0 +1,12 @@
+{
+  "title": {
+    "et": "Sisselogimise kinnitamine",
+    "en": "Verify sign in",
+    "ru": "Подтверждение входа"
+  },
+  "description": {
+    "et": "Sisesta ühekordne e-posti teel saadetud kinnituskood.",
+    "en": "Enter your one-time email verification code.",
+    "ru": "Введите одноразовый код подтверждения, отправленный на вашу электронную почту."
+  }
+}

@@ -7,7 +7,11 @@ use Blendhtml\Core\Twig;
 
 class Renderer
 {
-    public static function render(string $componentRef, array $props = []): string
+    public static function render(
+        string $componentRef,
+        array $props = [],
+        array $page = []
+    ): string
     {
         $id = str_replace('/', '-', $componentRef);
 
@@ -47,6 +51,8 @@ class Renderer
                 ],
 
                 'props' => $props,
+                
+                'page' => $page,
             ]
         );
     }

@@ -1,0 +1,21 @@
+{
+  "kicker": "Email verification",
+  "title": "Enter your code",
+  "description": "Enter the numeric verification code from your email.",
+  "code_label": "Verification code",
+  "submit": "Verify and sign in",
+  "restart": "Request a new code",
+  "errors": {
+    "invalid_email": "Please enter a valid email address.",
+    "email_not_authorized": "This email address is not authorized.",
+    "rate_limited": "Too many attempts. Please try again later.",
+    "invalid_csrf": "Your session has expired. Please try again.",
+    "invalid_code": "The verification code is incorrect.",
+    "expired_code": "The verification code has expired. Request a new code.",
+    "consumed_code": "This verification code has already been used.",
+    "invalidated_code": "This verification code is no longer valid. Request a new code.",
+    "maximum_attempts": "Too many incorrect attempts. Request a new code.",
+    "missing_login_flow": "This verification request is no longer valid. Request a new code.",
+    "method_not_allowed": "This request method is not supported."
+  }
+}

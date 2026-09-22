@@ -1,0 +1,5 @@
+{
+  "/login": "/blendhtml/login",
+  "/login/verify": "/blendhtml/login/verify",
+  "/logout": "/blendhtml/logout"
+}
