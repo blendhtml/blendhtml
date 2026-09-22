@@ -103,5 +103,6 @@ final class Version20260907130000CreateVisitMetricsV1Tables extends AbstractMigr
     public function down(Schema $schema): void
     {
         $schema->dropTable('visit_metrics_v1');
+        $schema->dropTable('visit_metrics_consent_v1');
     }
 }

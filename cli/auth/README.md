@@ -13,6 +13,7 @@ cli/
 ├── auth/
 │   ├── setConfigs.sh
 │   ├── showConfiguration.sh
+│   ├── syncAll.sh
 │   ├── syncRoles.input
 │   ├── syncRoles.sh
 │   ├── syncUsersRoles.input
@@ -144,12 +145,31 @@ Synchronizes users and their role assignments.
 * Blendhtml and project roles can both be assigned.
 * Existing roles are reused.
 * A missing project role requires explicit confirmation before it is created.
+* Use `--force` to create missing project roles without confirmation.
 * A missing protected Blendhtml role is not created; Blendhtml migrations or seeding must ensure it.
 * User role assignments are synchronized with the input.
 * Roles can be removed from a user's assignments when they are no longer listed.
 * Role definitions are never deleted by this script.
 
+Example:
+
+```bash
+./syncUsersRoles.sh --force
+```
+
 Project role definition cleanup belongs to `syncRoles.sh`. Protected Blendhtml role definitions remain under Blendhtml's lifecycle.
+
+### `syncAll.sh`
+
+Runs all `sync*.sh` scripts in the `auth` directory, excluding `syncAll.sh` itself.
+
+All scripts are run with `--force`.
+
+```bash
+./syncAll.sh
+```
+
+This is intended for a complete non-interactive authentication synchronization.
 
 ## Whitelist
 

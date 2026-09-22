@@ -12,6 +12,8 @@ use Blendhtml\Core\Auth\Entity\User;
 use Blendhtml\Core\Auth\RoleName;
 use Blendhtml\Doctrine\Doctrine;
 
+$force = in_array('--force', $argv, true);
+
 try {
     $entries = readInputFile('auth/syncUsersRoles');
 
@@ -88,21 +90,23 @@ try {
                 );
             }
 
-            echo PHP_EOL;
-            echo "New project role detected: {$roleName}" . PHP_EOL;
-            echo "Create this role? [y/N]: ";
+            if (!$force) {
+                echo PHP_EOL;
+                echo "New project role detected: {$roleName}" . PHP_EOL;
+                echo "Create this role? [y/N]: ";
 
-            $answer = trim(
-                fgets(STDIN) ?: ''
-            );
-
-            if (
-                strtolower($answer) !== 'y'
-                && strtolower($answer) !== 'yes'
-            ) {
-                throw new RuntimeException(
-                    "Role creation cancelled: {$roleName}"
+                $answer = trim(
+                    fgets(STDIN) ?: ''
                 );
+
+                if (
+                    strtolower($answer) !== 'y'
+                    && strtolower($answer) !== 'yes'
+                ) {
+                    throw new RuntimeException(
+                        "Role creation cancelled: {$roleName}"
+                    );
+                }
             }
 
             $createdRole = AuthAdmin::createRole($roleName);
@@ -128,7 +132,7 @@ try {
             $roleNames === []
                 ? 'no roles'
                 : implode(', ', $roleNames)
-        ) .PHP_EOL;
+        ) . PHP_EOL;
     }
 } catch (Throwable $exception) {
     fwrite(
