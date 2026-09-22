@@ -163,6 +163,7 @@ final class Auth
 
             if ($existing instanceof LoginCode) {
                 $existing->invalidate($now);
+                $entityManager->flush();
             }
 
             $loginCode = new LoginCode(
