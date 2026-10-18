@@ -1,0 +1,10 @@
+{
+  "title": "500 — Toetamata reaalsus",
+  "badge": "⚠ Sisemine serveri viga • 500",
+  "headline": "Toetamata reaalsus",
+  "description": "Midagi läks päringu töötlemisel valesti.\nPalun proovige hetke pärast uuesti või naaske avalehele.",
+  "protocol": "◉ Sisemine serveri viga tuvastatud",
+  "homeButton": "Tagasi avalehele",
+  "retryButton": "Proovi uuesti",
+  "favicon_letter": "B"
+}

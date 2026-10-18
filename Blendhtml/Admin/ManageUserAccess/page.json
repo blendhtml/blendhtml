@@ -1,0 +1,8 @@
+{
+  "main": [
+    ["section/accessMode"],
+    ["section/emailWhitelist"],
+    ["section/roleManagement"],
+    ["section/userRoleTable"]
+  ]
+}

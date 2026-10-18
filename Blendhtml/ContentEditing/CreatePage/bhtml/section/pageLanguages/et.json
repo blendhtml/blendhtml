@@ -1,0 +1,10 @@
+{
+  "title": "Keeled",
+  "description": "Vali kõik keeled, milles leht tuleb luua.",
+  "required": "Vali vähemalt üks keel.",
+  "languages": {
+    "et": "Eesti",
+    "en": "Inglise",
+    "ru": "Vene"
+  }
+}

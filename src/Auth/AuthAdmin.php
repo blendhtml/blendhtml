@@ -344,6 +344,53 @@ final class AuthAdmin
             );
     }
 
+    public static function createUser(string $email): User
+    {
+        $email = Email::normalize($email);
+        $entityManager = Doctrine::em();
+
+        $existing = $entityManager
+            ->getRepository(User::class)
+            ->findOneBy([
+                'email' => $email,
+            ]);
+
+        if ($existing instanceof User) {
+            return $existing;
+        }
+
+        $now = self::now()->format('Y-m-d H:i:s');
+
+        try {
+            $entityManager
+                ->getConnection()
+                ->insert(
+                    'auth__users',
+                    [
+                        'email' => $email,
+                        'created_at' => $now,
+                        'updated_at' => $now,
+                    ]
+                );
+        } catch (UniqueConstraintViolationException) {
+            // A concurrent call created the same user.
+        }
+
+        $user = $entityManager
+            ->getRepository(User::class)
+            ->findOneBy([
+                'email' => $email,
+            ]);
+
+        if (!$user instanceof User) {
+            throw new RuntimeException(
+                'Unable to create the authentication user.'
+            );
+        }
+
+        return $user;
+    }
+
     public static function createRole(string $name): Role
     {
         $name = RoleName::normalize($name);

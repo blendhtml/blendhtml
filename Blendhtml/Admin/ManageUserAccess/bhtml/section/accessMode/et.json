@@ -1,0 +1,15 @@
+{
+  "kicker": "Haldus",
+  "title": "Kasutajate juurdepääsu haldamine",
+  "description": "Määra, kes võivad sisse logida ja millised õigused autentitud kasutajatele antakse.",
+  "section_title": "Muuda juurdepääsurežiimi",
+  "section_description": "Luba sisselogimine mis tahes kehtiva e-posti aadressiga või piira see lubatud aadresside loendiga.",
+  "any_title": "Kõik e-posti aadressid",
+  "any_description": "Igaüks, kellel on juurdepääs kehtivale e-posti aadressile, võib taotleda kinnituskoodi.",
+  "whitelist_title": "Ainult lubatud loend",
+  "whitelist_description": "Kinnituskoodi võivad taotleda ainult lubatud loendis olevad e-posti aadressid.",
+  "save": "Salvesta juurdepääsurežiim",
+  "notices": {
+    "mode_updated": "E-posti juurdepääsurežiim on uuendatud."
+  }
+}

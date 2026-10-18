@@ -321,27 +321,43 @@ class Application
                 $page->rootDirectory
             );
 
+            if (isset($_GET['notrack']) && isset($_GET['track'])) {
+                throw new RuntimeException("Cannot specify both notrack and track");
+            }
+
             if (isset($_GET['notrack'])) {
                 if ($_GET['notrack'] !== getenv('NOTRACK_TOKEN')) {
                     throw new RuntimeException("Incorrect notrack token");
                 }
 
+                $notrack = true;
+            } elseif (isset($_GET['track'])) {
+                if ($_GET['track'] !== getenv('NOTRACK_TOKEN')) {
+                    throw new RuntimeException("Incorrect track token");
+                }
+
+                $notrack = false;
+            }
+
+            if (isset($notrack)) {
                 $expires = time() + (365 * 24 * 3600);
-                setcookie("blendhtml_notrack", "1", [
-                    'expires' => $expires,
-                    'path' => '/',
-                    'secure' => true,
-                    'samesite' => 'Lax',
-                ]);
-                setcookie("blendhtml_cookies_accepted", "0", [
+
+                setcookie("blendhtml_notrack", $notrack ? "1" : "0", [
                     'expires' => $expires,
                     'path' => '/',
                     'secure' => true,
                     'samesite' => 'Lax',
                 ]);
 
-                $_COOKIE['blendhtml_notrack'] = '1';
-                $_COOKIE['blendhtml_cookies_accepted'] = '0';
+                setcookie("blendhtml_cookies_accepted", $notrack ? "0" : "1", [
+                    'expires' => $expires,
+                    'path' => '/',
+                    'secure' => true,
+                    'samesite' => 'Lax',
+                ]);
+
+                $_COOKIE['blendhtml_notrack'] = $notrack ? '1' : '0';
+                $_COOKIE['blendhtml_cookies_accepted'] = $notrack ? '0' : '1';
             }
 
             return PageView::render(
@@ -361,7 +377,7 @@ class Application
 
             http_response_code(500);
 
-            Logger::exception($exception);
+            $errorId = Logger::exception($exception);
 
             if (Context::devMode() === true) {
                 throw $exception;
@@ -369,7 +385,7 @@ class Application
 
             $this->ensureLocale();
 
-            return Page500::render();
+            return Page500::render($errorId);
         }
     }
 }

@@ -1,0 +1,12 @@
+{
+  "section_title": "Lubatud loendi haldamine",
+  "section_description": "Kui lubatud loendi režiim on aktiivne, saavad sisse logida ainult siin loetletud e-posti aadressid.",
+  "email_label": "E-posti aadress",
+  "email_placeholder": "kasutaja@example.com",
+  "add": "Lisa e-posti aadress",
+  "remove": "Eemalda",
+  "empty": "Lubatud loend on tühi.",
+  "notices": {
+    "whitelist_updated": "E-posti aadresside lubatud loend on uuendatud."
+  }
+}

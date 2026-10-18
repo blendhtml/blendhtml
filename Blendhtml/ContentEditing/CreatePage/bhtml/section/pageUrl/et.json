@@ -1,0 +1,8 @@
+{
+  "title": "Lehe aadress",
+  "description": "Vali avalik aadress, kus leht pärast kinnitamist kättesaadavaks muutub.",
+  "label": "Soovitud URL",
+  "placeholder": "/meist",
+  "format_help": "Kasuta väiketähti, numbreid ja sidekriipse. Aadress peab algama märgiga „/”.",
+  "homepage_help": "Kodulehte ei ole veel olemas, seega luuakse selle taotlusega koduleht aadressile „/”."
+}

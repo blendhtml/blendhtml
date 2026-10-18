@@ -106,19 +106,27 @@ final class PageJsonCascade
             ) {
                 if (
                     array_is_list($base[$key])
-                    || array_is_list($value)
+                    && array_is_list($value)
                 ) {
-                    $base[$key] = $value;
+                    $base[$key] = [
+                        ...$base[$key],
+                        ...$value,
+                    ];
 
                     continue;
                 }
 
-                $base[$key] = self::merge(
-                    $base[$key],
-                    $value
-                );
+                if (
+                    !array_is_list($base[$key])
+                    && !array_is_list($value)
+                ) {
+                    $base[$key] = self::merge(
+                        $base[$key],
+                        $value
+                    );
 
-                continue;
+                    continue;
+                }
             }
 
             $base[$key] = $value;

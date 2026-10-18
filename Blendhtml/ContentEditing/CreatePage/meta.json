@@ -1,0 +1,12 @@
+{
+  "title": {
+    "et": "Loo uus leht",
+    "en": "Create a new page",
+    "ru": "Создать новую страницу"
+  },
+  "description": {
+    "et": "Loo tehisintellekti abil uus veebileht ja vali selle aadress ning keeled.",
+    "en": "Create a new web page with AI and select its address and languages.",
+    "ru": "Создайте новую веб-страницу с помощью ИИ и выберите её адрес и языки."
+  }
+}

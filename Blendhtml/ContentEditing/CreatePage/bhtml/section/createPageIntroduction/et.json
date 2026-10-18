@@ -1,0 +1,15 @@
+{
+  "kicker": "Sisu haldamine",
+  "title": "Loo uus leht",
+  "description": "Kirjelda soovitud lehte ja määra selle avalik aadress.",
+  "description_when_languages_ready": "Kirjelda soovitud lehte, määra selle avalik aadress ja vali loodava sisu keeled.",
+  "success_when_preview_ready": "Sinu lehe loomise taotlus on vastu võetud. Lehe loomine võib võtta aega. Kui eelvaade on valmis, saadetakse sulle e-kirjaga eelvaate link.",
+  "success": "Sinu lehe loomise taotlus on vastu võetud. Lehe loomine võib võtta aega (3-5 min). Kui veebileht on valmis, saadetakse sulle e-kirjaga täislink.",
+  "errors": {
+    "invalid_csrf": "Vorm on aegunud. Kontrolli andmed üle ja saada vorm uuesti.",
+    "invalid_url": "Sisesta korrektne lehe aadress.",
+    "invalid_languages": "Vali vähemalt üks keel.",
+    "invalid_prompt": "Sisesta loodavat lehte kirjeldav juhis.",
+    "rate_limit": "AI-päringute limiit (5 päringut) on täis."
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "title": "Languages",
+  "description": "Select every language in which the page should be created.",
+  "required": "Select at least one language.",
+  "languages": {
+    "et": "Estonian",
+    "en": "English",
+    "ru": "Russian"
+  }
+}

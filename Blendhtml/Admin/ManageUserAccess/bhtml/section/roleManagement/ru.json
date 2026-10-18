@@ -1,0 +1,15 @@
+{
+  "section_title": "Управление ролями",
+  "section_description": "Создавайте и удаляйте роли проекта. Системные роли Blendhtml защищены.",
+  "role_label": "Название новой роли",
+  "role_placeholder": "content_manager",
+  "create": "Создать роль",
+  "delete": "Удалить",
+  "delete_bound_confirmation": "Эта роль назначена как минимум одному пользователю. Вы уверены, что хотите её удалить?",
+  "protected": "Защищена",
+  "empty": "Нет доступных ролей.",
+  "notices": {
+    "role_created": "Роль создана и доступна.",
+    "role_deleted": "Роль удалена."
+  }
+}

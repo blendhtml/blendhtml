@@ -1,0 +1,15 @@
+{
+  "section_title": "Manage roles",
+  "section_description": "Create or remove project roles. Blendhtml system roles are protected.",
+  "role_label": "New role name",
+  "role_placeholder": "content_manager",
+  "create": "Create role",
+  "delete": "Delete",
+  "delete_bound_confirmation": "This role is assigned to at least one user. Are you sure you want to delete it?",
+  "protected": "Protected",
+  "empty": "No roles are available.",
+  "notices": {
+    "role_created": "The role is now available.",
+    "role_deleted": "The role was removed."
+  }
+}

@@ -1,0 +1,8 @@
+{
+  "title": "Page URL",
+  "description": "Choose the public path where the page should eventually be available.",
+  "label": "Desired URL",
+  "placeholder": "/about-us",
+  "format_help": "Use lowercase letters, numbers and hyphens. The URL must begin with “/”.",
+  "homepage_help": "The homepage does not exist yet, so this request will create it at “/”."
+}

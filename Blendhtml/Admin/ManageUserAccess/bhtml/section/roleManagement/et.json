@@ -1,0 +1,15 @@
+{
+  "section_title": "Rollide haldamine",
+  "section_description": "Loo või eemalda projekti rolle. Blendhtmli süsteemirollid on kaitstud.",
+  "role_label": "Uue rolli nimi",
+  "role_placeholder": "sisuhaldur",
+  "create": "Loo roll",
+  "delete": "Kustuta",
+  "delete_bound_confirmation": "See roll on määratud vähemalt ühele kasutajale. Kas oled kindel, et soovid selle kustutada?",
+  "protected": "Kaitstud",
+  "empty": "Ühtegi rolli pole saadaval.",
+  "notices": {
+    "role_created": "Roll on nüüd saadaval.",
+    "role_deleted": "Roll on eemaldatud."
+  }
+}

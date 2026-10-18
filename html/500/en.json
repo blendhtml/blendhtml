@@ -1,0 +1,10 @@
+{
+  "title": "500 — Unsupported Reality",
+  "badge": "⚠ Internal Server Error • 500",
+  "headline": "Unsupported Reality",
+  "description": "Something went wrong while processing your request.\nPlease try again in a moment or return to the homepage.",
+  "protocol": "◉ Internal Server Error Detected",
+  "homeButton": "Return Home",
+  "retryButton": "Retry Connection",
+  "favicon_letter": "B"
+}

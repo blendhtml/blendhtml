@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 header('Content-Type: application/json; charset=utf-8');
 
-if (isset($_COOKIE['blendhtml_notrack'])) {
+if (isset($_COOKIE['blendhtml_notrack']) && filter_var($_COOKIE['blendhtml_notrack'], FILTER_VALIDATE_BOOLEAN) === true) {
     echo json_encode([
         'success' => false,
         'errors' => [
-            'blendhtml_notrack COOKIE is set',
+            'blendhtml_notrack COOKIE is active',
         ],
     ]);
 

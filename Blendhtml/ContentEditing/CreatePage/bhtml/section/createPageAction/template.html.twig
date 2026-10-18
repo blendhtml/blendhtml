@@ -1,0 +1,35 @@
+<section class="mx-auto mb-12 mt-6 w-full max-w-5xl px-4 sm:px-6 lg:px-8">
+    <div class="rounded-2xl border border-indigo-200 bg-indigo-50/60 p-6">
+        <h2 class="text-xl font-bold text-slate-900">
+            {{ self.data.title|e }}
+        </h2>
+
+        <p class="mt-2 text-sm leading-6 text-slate-700">
+            {{ self.data.description|e }}
+        </p>
+{#
+        <p class="mt-3 rounded-xl border border-indigo-200 bg-white px-4 py-3 text-sm font-semibold leading-6 text-indigo-900">
+            {{ self.data.publication_notice|e }}
+        </p>
+#}
+        <form
+                id="create-page-form"
+                method="post"
+                action="/blendhtml/api/content-editing/create-page"
+                class="mt-6"
+        >
+            <input
+                    type="hidden"
+                    name="_csrf"
+                    value="{{ page.csrfToken|e('html_attr') }}"
+            >
+
+            <button
+                    class="min-h-12 rounded-xl bg-indigo-600 px-6 py-3 text-base font-semibold text-white transition hover:bg-indigo-500 focus:outline-none focus:ring-4 focus:ring-indigo-600/20"
+                    type="submit"
+            >
+                {{ self.data.submit|e }}
+            </button>
+        </form>
+    </div>
+</section>

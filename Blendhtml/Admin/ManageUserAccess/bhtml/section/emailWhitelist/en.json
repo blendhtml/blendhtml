@@ -1,0 +1,12 @@
+{
+  "section_title": "Manage whitelist",
+  "section_description": "Only the email addresses listed here can sign in while whitelist mode is active.",
+  "email_label": "Email address",
+  "email_placeholder": "user@example.com",
+  "add": "Add email",
+  "remove": "Remove",
+  "empty": "The whitelist is empty.",
+  "notices": {
+    "whitelist_updated": "The email whitelist was updated."
+  }
+}

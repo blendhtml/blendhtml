@@ -1,0 +1,25 @@
+{
+  "section_title": "Users and roles",
+  "section_description": "Create users, assign or remove their roles, or delete users.",
+  "new_user_email": "New user's email address",
+  "email_placeholder": "user@example.com",
+  "create_user": "Create user",
+  "email": "Email",
+  "roles": "Role assignments",
+  "actions": "Actions",
+  "current_user": "You",
+  "no_roles": "No roles are defined.",
+  "no_users": "No users have been created.",
+  "save": "Save roles",
+  "delete": "Delete user",
+  "delete_confirmation": "Are you sure you want to delete this user? This action cannot be undone.",
+  "showing": "Showing {{from}}–{{to}} of {{total}} users",
+  "previous": "Previous",
+  "next": "Next",
+  "pagination_label": "User pagination",
+  "notices": {
+    "user_created": "The user was created.",
+    "user_roles_updated": "The user's role assignments were updated.",
+    "user_deleted": "The user was deleted."
+  }
+}

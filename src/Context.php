@@ -20,12 +20,15 @@ class Context
 
     public AuthContext $auth;
 
+    public ?string $NOTRACK_TOKEN = null;
+
     public static function instance(): self
     {
         if (!self::$instance) {
             self::$instance = new self();
             self::$instance->meta = new Meta();
             self::$instance->auth = new AuthContext();
+            self::$instance->NOTRACK_TOKEN = getenv('NOTRACK_TOKEN') ?? null;
         }
 
         return self::$instance;

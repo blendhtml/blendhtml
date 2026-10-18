@@ -1,0 +1,8 @@
+{
+  "main": [
+    ["section/createPageIntroduction"],
+    ["section/pageUrl"],
+    ["section/pagePrompt"],
+    ["section/createPageAction"]
+  ]
+}

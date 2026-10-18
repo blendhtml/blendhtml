@@ -1,0 +1,15 @@
+{
+  "kicker": "Content editing",
+  "title": "Create a new page",
+  "description": "Describe the page you need and choose its public URL.",
+  "description_when_languages_ready": "Describe the page you need, choose its public URL and select the languages to generate.",
+  "success_when_preview_ready": "Your page creation request has been accepted. Creating the page may take some time. You will receive an email with a preview link when it is ready.",
+  "success": "Your page creation request has been accepted. Creating the page may take some time (3-5 min). You will receive an email with a full link when it is ready.",
+  "errors": {
+    "invalid_csrf": "The form has expired. Please review the details and submit it again.",
+    "invalid_url": "Enter a valid page URL.",
+    "invalid_languages": "Select at least one language.",
+    "invalid_prompt": "Enter a prompt describing the page you want to create.",
+    "rate_limit": "The AI request limit (5 requests) has been reached."
+  }
+}

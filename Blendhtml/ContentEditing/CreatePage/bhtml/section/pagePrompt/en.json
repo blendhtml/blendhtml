@@ -1,0 +1,6 @@
+{
+  "title": "Page prompt",
+  "description": "Explain the purpose, audience, structure, content and visual direction of the page in as much detail as needed.",
+  "label": "Prompt",
+  "placeholder": "Describe the page you want to create..."
+}

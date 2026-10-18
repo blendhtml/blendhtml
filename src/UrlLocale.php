@@ -13,8 +13,7 @@ final class UrlLocale
             )
         ) {
             if ($initialLocale !== null) {
-                header('Location: ' . $uriWithoutLocale);
-                exit;
+                self::redirect($uriWithoutLocale);
             }
 
             return;
@@ -64,7 +63,19 @@ final class UrlLocale
                 ? $cookieLocale
                 : $defaultLocale;
 
-        header('Location: ' . '/' . $urlLocale . $uriWithoutLocale);
+        self::redirect('/' . $urlLocale . $uriWithoutLocale);
+    }
+
+    private static function redirect(string $location): never
+    {
+        $method = strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
+
+        $status = match ($method) {
+            'GET', 'HEAD' => 302,
+            default => 307,
+        };
+
+        header('Location: ' . $location, true, $status);
         exit;
     }
 }

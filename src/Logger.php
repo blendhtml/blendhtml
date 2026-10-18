@@ -23,18 +23,21 @@ final class Logger
         | JSON_INVALID_UTF8_SUBSTITUTE
         | JSON_THROW_ON_ERROR;
 
-    public static function exception(Throwable $exception): void
+    public static function exception(Throwable $exception): ?string
     {
         if (
             $exception instanceof AuthenticationException
             || $exception instanceof UnauthorizedException
             || $exception instanceof ForbiddenException
         ) {
-            return;
+            return $exception->getMessage();
         }
+
+        $errorId = self::uuid();
 
         try {
             $record = [
+                'error_id' => $errorId,
                 'timestamp' => gmdate(DATE_ATOM),
                 'level' => 'error',
                 'method' => $_SERVER['REQUEST_METHOD'] ?? '-',
@@ -85,6 +88,21 @@ final class Logger
         } catch (Throwable) {
             // Logging must never alter application behavior.
         }
+
+        return $errorId;
+    }
+
+    private static function uuid(): string
+    {
+        $bytes = random_bytes(16);
+
+        $bytes[6] = chr((ord($bytes[6]) & 0x0f) | 0x40);
+        $bytes[8] = chr((ord($bytes[8]) & 0x3f) | 0x80);
+
+        return vsprintf(
+            '%s%s-%s-%s-%s-%s%s%s',
+            str_split(bin2hex($bytes), 4)
+        );
     }
 
     public static function event(

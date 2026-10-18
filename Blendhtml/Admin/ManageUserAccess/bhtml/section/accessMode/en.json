@@ -1,0 +1,15 @@
+{
+  "kicker": "Administration",
+  "title": "Manage user access",
+  "description": "Control who may sign in and which permissions are assigned to authenticated users.",
+  "section_title": "Change access mode",
+  "section_description": "Allow any valid email address or restrict sign-in to the email whitelist.",
+  "any_title": "Any email",
+  "any_description": "Anyone with access to a valid email address may request a verification code.",
+  "whitelist_title": "Whitelist only",
+  "whitelist_description": "Only email addresses on the whitelist may request a verification code.",
+  "save": "Save access mode",
+  "notices": {
+    "mode_updated": "The email access mode was updated."
+  }
+}

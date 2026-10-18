@@ -1,0 +1,25 @@
+{
+  "section_title": "Kasutajad ja rollid",
+  "section_description": "Loo kasutajaid, määra või eemalda nende rolle või kustuta kasutajaid.",
+  "new_user_email": "Uue kasutaja e-posti aadress",
+  "email_placeholder": "kasutaja@example.com",
+  "create_user": "Loo kasutaja",
+  "email": "E-post",
+  "roles": "Määratud rollid",
+  "actions": "Toimingud",
+  "current_user": "Sina",
+  "no_roles": "Ühtegi rolli pole määratletud.",
+  "no_users": "Ühtegi kasutajat pole loodud.",
+  "save": "Salvesta rollid",
+  "delete": "Kustuta kasutaja",
+  "delete_confirmation": "Kas oled kindel, et soovid selle kasutaja kustutada? Seda toimingut ei saa tagasi võtta.",
+  "showing": "Kuvatakse {{from}}–{{to}} kasutajat kokku {{total}}",
+  "previous": "Eelmine",
+  "next": "Järgmine",
+  "pagination_label": "Kasutajate leheküljed",
+  "notices": {
+    "user_created": "Kasutaja on loodud.",
+    "user_roles_updated": "Kasutajale määratud rollid on uuendatud.",
+    "user_deleted": "Kasutaja on kustutatud."
+  }
+}
