@@ -7,7 +7,8 @@ final class PageJsonCascade
     public static function resolve(
         string $directory,
         string $rootDirectory
-    ): array {
+    ): array
+    {
         $data = [];
 
         $root = rtrim($rootDirectory, '/');
@@ -26,6 +27,15 @@ final class PageJsonCascade
             substr($target, strlen($root)),
             '/'
         );
+
+        if (str_contains($rootDirectory, '/vendor/' . Vendor::namespace() . '/blendhtml/Blendhtml') === false) {
+            $data = json_decode(
+                file_get_contents(
+                    dirname(__DIR__) . '/Blendhtml/page.json'
+                ),
+                true
+            );
+        }
 
         $current = $root;
 
@@ -46,9 +56,10 @@ final class PageJsonCascade
     }
 
     private static function mergeFile(
-        array $data,
+        array  $data,
         string $file
-    ): array {
+    ): array
+    {
         $directory = dirname($file);
 
         if (
@@ -84,7 +95,8 @@ final class PageJsonCascade
     private static function merge(
         array $base,
         array $override
-    ): array {
+    ): array
+    {
         if (array_is_list($override)) {
             return $override;
         }

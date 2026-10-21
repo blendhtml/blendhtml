@@ -4,5 +4,6 @@
     ["section/emailWhitelist"],
     ["section/roleManagement"],
     ["section/userRoleTable"]
-  ]
+  ],
+  "!modals": []
 }

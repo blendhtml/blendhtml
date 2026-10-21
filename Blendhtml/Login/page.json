@@ -1,5 +1,6 @@
 {
   "main": [
     ["section/loginForm"]
-  ]
+  ],
+  "!modals": []
 }

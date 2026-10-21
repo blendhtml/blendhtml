@@ -1,0 +1,7 @@
+{
+  "modals": [
+    ["modal/overlay/v1"],
+    ["modal/cookiePoliciesAll/v1"],
+    ["modal/sessionStatus/v1"]
+  ]
+}

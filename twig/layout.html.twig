@@ -24,9 +24,25 @@
     >
     {% endblock %}
 
-    {% block css %}{% endblock %}
+        {% block css %}
+            {{ tailwind(_bhtml.page) }}
+            {{ asset('fontAwesome') }}
+        {% endblock %}
 
     {% block js %}
+        <script>
+            window.BLENDHTML_MODAL_V1 = {
+                initiallyOpen: "cookie-policies-consent"
+            };
+        </script>
+        {{ asset('modal') }}
+
+        {{ asset('visitMetrics') }}
+
+        {# @todo Needs attention in future #}
+        {% if _bhtml.auth.hasRole('admin') %}
+            {{ asset('draggable') }}
+        {% endif %}
 
         {% if _bhtml.devMode %}
 
@@ -56,9 +72,14 @@
 
     {% endblock %}
 </head>
-<body {% block bodyAttrs %}{% endblock %}>
+<body {% block bodyAttrs %}class="min-h-screen flex flex-col"{% endblock %}>
 {% block body %}
     {{ bhtml_page() }}
 {% endblock %}
+
+{# @todo Needs attention in future #}
+{% if _bhtml.auth.hasRole('admin') %}
+    {{ bhtml('widget/sessionStatus/v1') }}
+{% endif %}
 </body>
 </html>
