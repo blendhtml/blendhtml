@@ -2,3 +2,4 @@
 vendor
 /git-push.sh
 /git-pull.sh
+/_scripts/
